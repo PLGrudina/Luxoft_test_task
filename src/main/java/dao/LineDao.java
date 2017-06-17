@@ -7,8 +7,11 @@ import models.Line;
  */
 public interface LineDao {
 
-    Line save (Line line);
-    Line update (Line line);
-    Line saveOrUpdate (Line line);
-    void delete (long id);
+    Line save(Line line);
+
+    Line update(Line line);
+
+    Line saveOrUpdate(Line line);
+
+    void delete(long id);
 }
