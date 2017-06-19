@@ -53,6 +53,26 @@ public class Line {
         return lineLength;
     }
 
+    public void setFullLine(String fullLine) {
+        this.fullLine = fullLine;
+    }
+
+    public void setLongestWord(String longestWord) {
+        this.longestWord = longestWord;
+    }
+
+    public void setShortestWord(String shortestWord) {
+        this.shortestWord = shortestWord;
+    }
+
+    public void setAverageWordLength(int averageWordLength) {
+        this.averageWordLength = averageWordLength;
+    }
+
+    public void setLineLength(int lineLength) {
+        this.lineLength = lineLength;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
