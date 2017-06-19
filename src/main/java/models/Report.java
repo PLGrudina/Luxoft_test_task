@@ -20,6 +20,9 @@ public class Report {
 
     private String url;
 
+    @OneToOne
+    private AverageRepStat reportStatistics;
+
     @OneToMany (cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     private List <Line> allLines = new ArrayList<>();
 
@@ -56,6 +59,14 @@ public class Report {
 
     public void setAllLines(List<Line> allLines) {
         this.allLines = allLines;
+    }
+
+    public AverageRepStat getReportStatistics() {
+        return reportStatistics;
+    }
+
+    public void setReportStatistics(AverageRepStat reportStatistics) {
+        this.reportStatistics = reportStatistics;
     }
 
     @Override
