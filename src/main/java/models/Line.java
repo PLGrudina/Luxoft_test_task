@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Line {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 

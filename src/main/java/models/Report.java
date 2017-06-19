@@ -8,11 +8,11 @@ import java.util.List;
  * Created by PavelGrudina on 16.06.2017.
  */
 @Entity
-@Table (name = "REPORTS")
+@Table(name = "REPORTS")
 public class Report {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private long id;
 
@@ -23,8 +23,8 @@ public class Report {
     @OneToOne
     private AverageRepStat reportStatistics;
 
-    @OneToMany (cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-    private List <Line> allLines = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Line> allLines = new ArrayList<>();
 
     public Report() {
     }
