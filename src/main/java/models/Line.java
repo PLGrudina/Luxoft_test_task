@@ -80,15 +80,21 @@ public class Line {
 
         Line line = (Line) o;
 
-        if (getId() != line.getId()) return false;
+        if (getAverageWordLength() != line.getAverageWordLength()) return false;
         if (getLineLength() != line.getLineLength()) return false;
-        return getFullLine() != null ? getFullLine().equals(line.getFullLine()) : line.getFullLine() == null;
+        if (getFullLine() != null ? !getFullLine().equals(line.getFullLine()) : line.getFullLine() != null)
+            return false;
+        if (getLongestWord() != null ? !getLongestWord().equals(line.getLongestWord()) : line.getLongestWord() != null)
+            return false;
+        return getShortestWord() != null ? getShortestWord().equals(line.getShortestWord()) : line.getShortestWord() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + (getFullLine() != null ? getFullLine().hashCode() : 0);
+        int result = getFullLine() != null ? getFullLine().hashCode() : 0;
+        result = 31 * result + (getLongestWord() != null ? getLongestWord().hashCode() : 0);
+        result = 31 * result + (getShortestWord() != null ? getShortestWord().hashCode() : 0);
+        result = 31 * result + getAverageWordLength();
         result = 31 * result + getLineLength();
         return result;
     }

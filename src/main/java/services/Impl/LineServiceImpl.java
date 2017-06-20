@@ -54,7 +54,7 @@ public class LineServiceImpl implements LineService {
 
             int wordsLength = 0;
             for (String word : tokens) {
-                wordsLength = +word.length();
+                wordsLength = wordsLength + word.length();
             }
             wordsLength = Math.round(wordsLength / tokens.length);
             line.setAverageWordLength(wordsLength);

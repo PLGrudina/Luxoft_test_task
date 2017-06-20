@@ -1,7 +1,5 @@
 package consoleApp;
 
-import consoleApp.dao.AverageRapStatDaoImpl;
-import consoleApp.dao.LineDaoConsoleImpl;
 import consoleApp.dao.ReportDaoConsoleImpl;
 import consoleApp.services.StatCalc;
 import models.Report;
@@ -24,7 +22,7 @@ public class ConsoleAppMain {
 
         Report report = new Report();
         report.setName("Fate");
-        report.setUrl("C:\\Users\\PavelGrudina\\IdeaProjects\\MyProject\\testtask\\src\\main\\resources\\text\\Fate.txt");
+        report.setUrl("C:\\Users\\PavelGrudina\\IdeaProjects\\MyProject\\testtask\\src\\main\\webapp\\static\\text\\Fate.txt");
 
         try {
             report = statCalc.splitByLines(report.getName(), report.getUrl());

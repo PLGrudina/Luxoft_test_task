@@ -55,6 +55,7 @@ public class ReportServiceImpl implements ReportService {
         Report report = new Report();
         report.setName(name);
         report.setUrl(url);
+        reportDao.save(report);
 
         List<Line> allReportLinesList = new ArrayList<>();
 
@@ -96,7 +97,7 @@ public class ReportServiceImpl implements ReportService {
 
         int wordLength = 0;
         for (int word : averageWordLength) {
-            wordLength = +word;
+            wordLength = wordLength + word;
         }
         wordLength = wordLength / averageWordLength.size();
         stat.setAverageWordLength(wordLength);
@@ -116,9 +117,11 @@ public class ReportServiceImpl implements ReportService {
         });
 
         stat.setShortestWord(shortestWord.get(0));
-        stat.setLongestWord(longestWord.get(longestWord.size()-1));
+        stat.setLongestWord(longestWord.get(longestWord.size() - 1));
 
         averageRepStatDao.save(stat);
+        report.setReportStatistics(stat);
+        reportDao.update(report);
 
         return stat;
     }
