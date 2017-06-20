@@ -91,12 +91,12 @@ public class AverageRepStat {
 
     @Override
     public String toString() {
-        return "AverageRepStat{" +
+        return "AverageRepStat (" +
                 "id=" + id +
-                ", linesCount=" + linesCount +
-                ", longestWord='" + longestWord + '\'' +
-                ", shortestWord='" + shortestWord + '\'' +
-                ", averageWordLength=" + averageWordLength +
-                '}';
+                ", lines count=" + linesCount +
+                ", longest word='" + longestWord + '\'' +
+                ", shortest word='" + shortestWord + '\'' +
+                ", average word length=" + averageWordLength +
+                ')';
     }
 }

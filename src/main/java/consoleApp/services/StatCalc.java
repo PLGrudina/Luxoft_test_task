@@ -1,61 +1,32 @@
-package services.Impl;
+package consoleApp.services;
 
-import dao.AverageRepStatDao;
-import dao.LineDao;
-import dao.ReportDao;
+import consoleApp.dao.AverageRapStatDaoImpl;
+import consoleApp.dao.LineDaoConsoleImpl;
+import consoleApp.dao.ReportDaoConsoleImpl;
 import models.AverageRepStat;
 import models.Line;
 import models.Report;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import services.ReportService;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
- * Created by PavelGrudina on 17.06.2017.
+ * Created by PavelGrudina on 19.06.2017.
  */
-@Service
-@Transactional(readOnly = true)
-public class ReportServiceImpl implements ReportService {
+public class StatCalc {
 
-    @Autowired
-    LineDao lineDao;
+    ReportDaoConsoleImpl reportDaoConsole = new ReportDaoConsoleImpl();
+    LineDaoConsoleImpl lineDaoConsole = new LineDaoConsoleImpl();
+    AverageRapStatDaoImpl averageRapStatDao = new AverageRapStatDaoImpl();
 
-    @Autowired
-    ReportDao reportDao;
-
-    @Autowired
-    AverageRepStatDao averageRepStatDao;
-
-    @Override
-    @Transactional
-    public Report save(Report report) {
-        reportDao.saveOrUpdate(report);
-        return report;
-    }
-
-    @Override
-    @Transactional
-    public void delete(long id) {
-        reportDao.delete(id);
-    }
-
-    @Override
-    @Transactional
     public Report splitByLines(String name, String url) throws IOException {
         Report report = new Report();
         report.setName(name);
         report.setUrl(url);
-        reportDao.save(report);
+        reportDaoConsole.save(report);
 
         List<Line> allReportLinesList = new ArrayList<>();
 
@@ -67,21 +38,19 @@ public class ReportServiceImpl implements ReportService {
         while ((str = reader.readLine()) != null) {
             Line line = new Line();
             line.setFullLine(str);
-            lineDao.save(line);
+            lineDaoConsole.save(line);
             allReportLinesList.add(line);
         }
         reader.close();
 
         report.setAllLines(allReportLinesList);
-        reportDao.save(report);
+        reportDaoConsole.update(report);
 
         return report;
     }
 
-    @Override
-    @Transactional
     public AverageRepStat averageStat(long reportId) {
-        Report report = reportDao.findById(reportId);
+        Report report = reportDaoConsole.findById(reportId);
         AverageRepStat stat = new AverageRepStat();
         stat.setLinesCount(report.getAllLines().size());
 
@@ -119,10 +88,38 @@ public class ReportServiceImpl implements ReportService {
         stat.setShortestWord(shortestWord.get(0));
         stat.setLongestWord(longestWord.get(longestWord.size() - 1));
 
-        averageRepStatDao.save(stat);
+        averageRapStatDao.save(stat);
+
         report.setReportStatistics(stat);
-        reportDao.update(report);
+        reportDaoConsole.update(report);
 
         return stat;
+    }
+
+    public void lineStatisticCalculate(List<Line> allReportLines) {
+        for (Line line : allReportLines) {
+            line.setLineLength(line.getFullLine().length());
+
+            String[] tokens = line.getFullLine().split(" ");
+
+            Arrays.sort(tokens, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    return o1.length() - o2.length();
+                }
+            });
+
+            line.setShortestWord(tokens[0]);
+            line.setLongestWord(tokens[tokens.length - 1]);
+
+            int wordsLength = 0;
+            for (String word : tokens) {
+                wordsLength = wordsLength + word.length();
+            }
+            wordsLength = Math.round(wordsLength / tokens.length);
+            line.setAverageWordLength(wordsLength);
+
+            lineDaoConsole.update(line);
+        }
     }
 }
