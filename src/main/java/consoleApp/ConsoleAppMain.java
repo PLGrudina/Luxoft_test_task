@@ -1,11 +1,11 @@
 package consoleApp;
 
+import consoleApp.dao.DbConnector;
+import consoleApp.dao.LineDaoConsoleImpl;
 import consoleApp.dao.ReportDaoConsoleImpl;
 import consoleApp.services.StatCalc;
 import models.Report;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.io.IOException;
 
 /**
@@ -13,10 +13,11 @@ import java.io.IOException;
  */
 public class ConsoleAppMain {
 
-    public static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("test-task");
+    public static DbConnector dbConnector = new DbConnector();
 
     public static void main(String[] args) {
         ReportDaoConsoleImpl reportDaoConsole = new ReportDaoConsoleImpl();
+        LineDaoConsoleImpl lineDaoConsole = new LineDaoConsoleImpl();
         StatCalc statCalc = new StatCalc();
 
 
@@ -29,7 +30,7 @@ public class ConsoleAppMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        statCalc.lineStatisticCalculate(report.getAllLines());
+        statCalc.lineStatisticCalculate(lineDaoConsole.findAllLinesByRepId(report.getId()));
         statCalc.averageStat(report.getId());
         report = reportDaoConsole.findById(report.getId());
 
