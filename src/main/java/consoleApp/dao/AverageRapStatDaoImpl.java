@@ -2,7 +2,6 @@ package consoleApp.dao;
 
 import consoleApp.ConsoleAppMain;
 import models.AverageRepStat;
-import models.Report;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,17 +92,17 @@ public class AverageRapStatDaoImpl {
 
             }
 
-                PreparedStatement preparedStatementBack = dbConnect.con.prepareStatement("SELECT * FROM PUBLIC.STATISTIC WHERE STATISTIC.ID = ?");
-                preparedStatementBack.setLong(1, statId);
-                ResultSet resultSet = preparedStatementBack.executeQuery();
+            PreparedStatement preparedStatementBack = dbConnect.con.prepareStatement("SELECT * FROM PUBLIC.STATISTIC WHERE STATISTIC.ID = ?");
+            preparedStatementBack.setLong(1, statId);
+            ResultSet resultSet = preparedStatementBack.executeQuery();
 
-                if (resultSet.next()) {
-                    stat.setId(resultSet.getLong("ID"));
-                    stat.setAverageWordLength(resultSet.getInt("AVERAGEWORDLENGTH"));
-                    stat.setLinesCount(resultSet.getInt("LINESCOUNT"));
-                    stat.setLongestWord(resultSet.getString("LONGESTWORD"));
-                    stat.setShortestWord(resultSet.getString("SHORTESTWORD"));
-                }
+            if (resultSet.next()) {
+                stat.setId(resultSet.getLong("ID"));
+                stat.setAverageWordLength(resultSet.getInt("AVERAGEWORDLENGTH"));
+                stat.setLinesCount(resultSet.getInt("LINESCOUNT"));
+                stat.setLongestWord(resultSet.getString("LONGESTWORD"));
+                stat.setShortestWord(resultSet.getString("SHORTESTWORD"));
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,9 +110,6 @@ public class AverageRapStatDaoImpl {
         return stat;
     }
 
-    public void delete(long id) {
-
-    }
 }
 
 

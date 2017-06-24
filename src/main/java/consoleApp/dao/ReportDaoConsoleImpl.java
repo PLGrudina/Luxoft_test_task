@@ -78,10 +78,6 @@ public class ReportDaoConsoleImpl {
         return report;
     }
 
-    public void delete(long id) {
-
-    }
-
     public Report findById(long id) {
 
         Report report = new Report();

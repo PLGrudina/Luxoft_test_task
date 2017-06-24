@@ -21,11 +21,11 @@ public class DbConnector {
     public Statement statement;
 
 
-    public DbConnector(){
+    public DbConnector() {
         init();
     }
 
-    private void init(){
+    private void init() {
         try {
 
             driverClass = Class.forName("org.h2.Driver");
@@ -39,7 +39,7 @@ public class DbConnector {
             statement = con.createStatement();
         } catch (ClassNotFoundException e) {
             System.out.println("Database connection not found.");
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Please start database and try again!");
             Thread.currentThread().stop();
         }

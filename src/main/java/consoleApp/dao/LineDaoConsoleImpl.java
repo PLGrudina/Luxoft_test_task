@@ -23,7 +23,7 @@ public class LineDaoConsoleImpl {
     public Line save(Line line, long reportId) {
         try {
             PreparedStatement preparedStatement = dbConnect.con.prepareStatement("INSERT INTO PUBLIC.LINES(ID,AVERAGEWORDLENGTH,FULLLINE,LINELENGTH,LONGESTWORD,SHORTESTWORD) VALUES (?,?,?,?,?,?)");
-            long id = (long) (Math.random() * 1000);
+            long id = (long) (Math.random() * 1000000);
             preparedStatement.setLong(1, id);
             preparedStatement.setInt(2, line.getAverageWordLength());
             preparedStatement.setString(3, line.getFullLine());
@@ -80,7 +80,6 @@ public class LineDaoConsoleImpl {
 
     public List<Line> findAllLinesByRepId(long id) {
 
-        Line line = new Line();
         List<Line> allLines = new ArrayList<>();
         List<Long> linesId = new ArrayList<>();
 
@@ -99,7 +98,7 @@ public class LineDaoConsoleImpl {
                 resultSet = preparedStatementLines.executeQuery();
 
                 while (resultSet.next()) {
-
+                    Line line = new Line();
                     line.setId(resultSet.getLong("ID"));
                     line.setAverageWordLength(resultSet.getInt("AVERAGEWORDLENGTH"));
                     line.setFullLine(resultSet.getString("FULLLINE"));
@@ -129,7 +128,4 @@ public class LineDaoConsoleImpl {
         return line;
     }
 
-    public void delete(long id) {
-
-    }
 }

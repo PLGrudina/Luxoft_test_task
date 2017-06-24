@@ -59,7 +59,7 @@ public class LineServiceImpl implements LineService {
             wordsLength = Math.round(wordsLength / tokens.length);
             line.setAverageWordLength(wordsLength);
 
-            lineDao.save(line);
+            lineDao.update(line);
         }
     }
 }

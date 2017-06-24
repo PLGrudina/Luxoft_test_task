@@ -13,6 +13,9 @@
     <title>Library</title>
     <link rel="stylesheet" href="/static/css/libraryStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/hint.js"></script>
 </head>
 <body>
 
@@ -20,15 +23,22 @@
     <div>
         <h3>Poems</h3>
 
+        <c:url value="/library" var="filter"/>
+        <form action="${filter}" method="get">
+            <p>Filter:
+                <input type="submit" class="btn btn-success" name="filter" value="30">
+            </p>
+        </form>
+
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>№</th>
                 <th>Name</th>
                 <th>Lines</th>
-                <th>Shortest word</th>
-                <th>Longest word</th>
-                <th>Average word length</th>
+                <th>Shortest</th>
+                <th>Longest</th>
+                <th>Average</th>
 
             </tr>
             </thead>
@@ -37,21 +47,25 @@
             <tr>
                 <th scope="row">${count.index + 1}</th>
                 <td>
-                    <c:url value="/report?id=${report.id}" var="reportStat"/>
-                    <a href="${reportStat}">${report.name}</a>
+                    <span data-tooltip="Lines count = ${report.reportStatistics.linesCount} ||
+                                        Shortest word = '${report.reportStatistics.shortestWord}' ||
+                                        Longest word = '${report.reportStatistics.longestWord}' ||
+                                        Average word length = ${report.reportStatistics.averageWordLength}">${report.name}
+                    </span>
                 </td>
-                <td class="alignment-center">${report.reportStatistics.linesCount}</td>
-                <td class="alignment-center">${report.reportStatistics.shortestWord}</td>
-                <td class="alignment-center">${report.reportStatistics.longestWord}</td>
-                <td class="alignment-center">${report.reportStatistics.averageWordLength}</td>
+                <td>${report.reportStatistics.linesCount}</td>
+                <td>${report.reportStatistics.shortestWord}</td>
+                <td>${report.reportStatistics.longestWord}</td>
+                <td>${report.reportStatistics.averageWordLength}</td>
 
             </tr>
             </c:forEach>
         </table>
 
-        <%--<c:url value="/client/edit" var="createUrl"/>--%>
-        <%--<a href="${createUrl}" class="btn btn-success" role="button">Create new Client</a><br>--%>
+        <c:url value="/edit" var="addText"/>
+        <a href="${addText}" class="btn btn-success" role="button">+ Text</a><br>
     </div>
+    <div id="tooltip"></div>
 </div>
 
 </body>
