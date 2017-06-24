@@ -9,6 +9,7 @@ import models.Report;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import services.LineService;
 import services.ReportService;
 
 import java.io.BufferedReader;
@@ -35,6 +36,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     AverageRepStatDao averageRepStatDao;
+
+    @Autowired
+    LineService lineService;
 
     @Override
     @Transactional
@@ -119,10 +123,35 @@ public class ReportServiceImpl implements ReportService {
         stat.setShortestWord(shortestWord.get(0));
         stat.setLongestWord(longestWord.get(longestWord.size() - 1));
 
-        averageRepStatDao.save(stat);
+        stat = averageRepStatDao.save(stat);
         report.setReportStatistics(stat);
         reportDao.update(report);
 
         return stat;
+    }
+
+    @Override
+    @Transactional
+    public List<Report> getAllReports() {
+        return reportDao.allReports();
+
+    }
+
+    @Override
+    @Transactional
+    public Report createFromUrl(String name, String url) {
+        Report report = new Report();
+        report.setName(name);
+        report.setUrl(url);
+
+        try {
+            report = splitByLines(report.getName(), report.getUrl());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        lineService.lineStatisticCalculate(report.getAllLines());
+        averageStat(report.getId());
+        report = reportDao.findById(report.getId());
+        return report;
     }
 }

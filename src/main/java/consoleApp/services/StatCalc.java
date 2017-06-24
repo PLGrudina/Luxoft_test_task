@@ -28,8 +28,6 @@ public class StatCalc {
         report.setUrl(url);
         reportDaoConsole.save(report);
 
-        List<Line> allReportLinesList = new ArrayList<>();
-
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream(report.getUrl())));
 
@@ -38,13 +36,9 @@ public class StatCalc {
         while ((str = reader.readLine()) != null) {
             Line line = new Line();
             line.setFullLine(str);
-            lineDaoConsole.save(line);
-            allReportLinesList.add(line);
+            lineDaoConsole.save(line, report.getId());
         }
         reader.close();
-
-        report.setAllLines(allReportLinesList);
-        reportDaoConsole.update(report);
 
         return report;
     }
@@ -88,7 +82,7 @@ public class StatCalc {
         stat.setShortestWord(shortestWord.get(0));
         stat.setLongestWord(longestWord.get(longestWord.size() - 1));
 
-        averageRapStatDao.save(stat);
+        averageRapStatDao.save(stat, reportId);
 
         report.setReportStatistics(stat);
         reportDaoConsole.update(report);

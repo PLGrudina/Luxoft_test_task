@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by PavelGrudina on 17.06.2017.
@@ -49,4 +50,12 @@ public class ReportDaoImpl implements ReportDao {
     public Report findById(long id) {
         return entityManager.find(Report.class, id);
     }
+
+    @Override
+    public List<Report> allReports() {
+        List<Report> resultList = entityManager.createQuery("from Report", Report.class).getResultList();
+        return resultList;
+    }
+
+
 }

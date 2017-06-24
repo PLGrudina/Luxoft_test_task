@@ -2,6 +2,8 @@ package dao;
 
 import models.Report;
 
+import java.util.List;
+
 /**
  * Created by PavelGrudina on 16.06.2017..
  */
@@ -16,5 +18,7 @@ public interface ReportDao {
     void delete(long id);
 
     Report findById (long id);
+
+    List<Report> allReports ();
 
 }
